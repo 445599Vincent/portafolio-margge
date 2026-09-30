@@ -48,7 +48,7 @@ export function SocialLinks({ className, showLabel = true, only }: Props) {
                 {inner}
               </a>
             ) : (
-              <span className="inline-flex min-h-11 items-center gap-2.5 text-sm opacity-80" title="Pendiente de configurar en src/data/site.ts">
+              <span className="inline-flex min-h-11 items-center gap-2.5 text-sm" title="Pendiente de configurar en src/data/site.ts">
                 {inner}
               </span>
             )}

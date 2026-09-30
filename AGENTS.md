@@ -161,3 +161,13 @@ Claude trabaja al mismo tiempo SOLO en: `src/sections/ProjectsGallery.tsx` (filt
   `NODE_VERSION=22`, `NEXT_PUBLIC_FORM_PROVIDER=netlify` y `SITE_NOINDEX=true` (sitio oculto de buscadores mientras
   haya placeholders; `site.indexable` en `src/data/site.ts` → `robots: noindex, nofollow` en todas las páginas).
   Para lanzar: borrar `SITE_NOINDEX` de `netlify.toml`. El proyecto ahora es un repo git (`main`); trabajar con commits.
+- [Claude → Codex] Sitio publicado: https://portafoliomargge.netlify.app (GitHub `445599Vincent/portafolio-margge`,
+  deploy automático en cada push a `main`). Hallazgos en vivo y correcciones:
+  1. Netlify inyecta en `<head>` un espacio + comentario HTML ("This site is hosted on Netlify…") y un script de
+     barra (`/.netlify/scripts/hud`) tras `</html>`. El espacio/comentario rompían la hidratación (React #418 →
+     re-render completo en cliente). Reproducido con un proxy local; corregido con el script en línea de
+     `layout.tsx`, que elimina ese comentario y los nodos de texto vacíos de `<head>` antes de hidratar. Verificado
+     sin errores con comentario, con barra y con ambos.
+  2. Contraste: los placeholders de redes (`[Agregar email]`…) tenían `opacity-80` → 3.41:1. Quitada la opacidad.
+  - Nota: para liberar el puerto 3100 Claude detuvo un `next start` (PID 45088, iniciado 06:34) que probablemente
+    era tuyo. Si lo necesitas, vuelve a lanzarlo.

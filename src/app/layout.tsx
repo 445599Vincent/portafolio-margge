@@ -46,6 +46,12 @@ export const metadata: Metadata = {
     : undefined,
 };
 
+const INLINE_HEAD_SCRIPT =
+  "document.documentElement.classList.add('js');" +
+  // Comentario de Netlify + el espacio en blanco que inserta antes (nodo de texto que React no espera).
+  "Array.prototype.slice.call(document.head.childNodes).forEach(function(n){" +
+  "if((n.nodeType===8&&/Netlify/.test(n.data))||(n.nodeType===3&&!n.data.trim()))n.remove()});";
+
 export const viewport: Viewport = {
   themeColor: "#f5f2ec",
   width: "device-width",
@@ -64,8 +70,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <head>
-        {/* Activa las animaciones de aparición solo si hay JavaScript */}
-        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {/*
+          1) Activa las animaciones de aparición solo si hay JavaScript.
+          2) Netlify inyecta un comentario HTML dentro de <head>; React no lo espera y la hidratación
+             falla (error #418 → re-render completo en el cliente). Se elimina antes de hidratar.
+        */}
+        <script dangerouslySetInnerHTML={{ __html: INLINE_HEAD_SCRIPT }} />
         {jsonLd && (
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         )}
