@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+
+# Netlify detecta Next.js y aplica su runtime oficial automáticamente.
+
+[build.environment]
+  # Next.js 16 requiere Node >= 20.9
+  NODE_VERSION = "22"
+  # El formulario de contacto usa Netlify Forms (detecta el formulario en /public/__forms.html).
+  # Requiere activar "Form detection" una vez en Netlify: Site configuration → Forms.
+  NEXT_PUBLIC_FORM_PROVIDER = "netlify"
+  # Sitio oculto de buscadores mientras haya contenido provisional ("[Agregar …]").
+  # Para lanzar oficialmente: borrar esta línea y volver a publicar.
+  SITE_NOINDEX = "true"

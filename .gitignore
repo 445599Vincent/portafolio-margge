@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+.env*.local
+.env
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+.netlify/
+.vercel/
+
+# Logs y configuraciones locales
+*.log
+.claude/settings.local.json

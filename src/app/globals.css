@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/*
+ * ——— Tokens de diseño ———
+ * Para adaptar la identidad visual de Margge basta con cambiar estos valores.
+ * Paleta neutra cálida + un color de acento (terracota).
+ */
+@theme inline {
+  --color-paper: #f5f2ec;
+  --color-paper-2: #ebe6dd;
+  --color-ink: #171614;
+  --color-ink-2: #2a2825;
+  --color-muted: #6a645c;
+  --color-line: #dcd5ca;
+  --color-accent: #9a4a2e;
+  --color-accent-light: #e0a083;
+  --color-accent-soft: #efe0d6;
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), "Times New Roman", Georgia, serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  /*
+   * Monitores grandes: a partir de 1920 px la escala base crece con la pantalla (16 px → 21 px máx.).
+   * Todo el sistema está en rem, así que tipografía, espacios y ancho máximo escalan en proporción.
+   * Las media queries no se ven afectadas (usan el tamaño inicial del navegador).
+   */
+  @media (width >= 1920px) {
+    html {
+      font-size: clamp(100%, 0.8333vw, 131.25%);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-accent-light);
+  }
+}
+
+@utility container-site {
+  width: 100%;
+  max-width: 84rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 3rem;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+@utility eyebrow {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* ——— Placeholders: contenido pendiente, fácil de identificar ——— */
+@layer components {
+  .ph {
+    color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+    text-decoration: underline dashed color-mix(in srgb, var(--color-accent) 55%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding-inline: 0.15em;
+    border-radius: 2px;
+  }
+
+  .on-dark .ph {
+    color: var(--color-accent-light);
+    background: color-mix(in srgb, var(--color-accent-light) 12%, transparent);
+  }
+
+  .ph-frame {
+    background-color: var(--color-paper-2);
+    background-image: repeating-linear-gradient(
+      135deg,
+      transparent 0 14px,
+      color-mix(in srgb, var(--color-ink) 4%, transparent) 14px 15px
+    );
+  }
+}
+
+/* ——— Reveal al hacer scroll (solo si hay JS; respeta reduced-motion) ——— */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 0.9s var(--ease-out-soft),
+    transform 0.9s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s var(--ease-out-soft) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-fade-up {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
