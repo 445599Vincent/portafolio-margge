@@ -1,4 +1,5 @@
 import { services } from "@/data/services";
+import { sectionIndex } from "@/data/sections";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { ServiceCard } from "@/components/ServiceCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
@@ -10,7 +11,7 @@ export function Services() {
       <div className="container-site grid gap-14 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
         <div className="lg:sticky lg:top-32 lg:self-start">
           <SectionTitle
-            index="04"
+            index={sectionIndex("servicios")}
             eyebrow="Servicios"
             id="servicios-title"
             title="Cómo puedo ayudarte"

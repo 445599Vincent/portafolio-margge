@@ -18,10 +18,12 @@ type Props = {
 
 /**
  * Enlaces de contacto/redes desde site.ts.
- * Los canales aún no configurados se muestran como placeholder (sin enlace).
+ * Los canales aún no configurados se muestran como placeholder (sin enlace) y en producción
+ * se omiten. Si no queda ningún canal, no se renderiza nada.
  */
 export function SocialLinks({ className, showLabel = true, only }: Props) {
   const channels = getContactChannels().filter((c) => !only || only.includes(c.id));
+  if (channels.length === 0) return null;
   return (
     <ul className={cn("flex flex-wrap gap-x-6 gap-y-3", className)}>
       {channels.map((c) => {

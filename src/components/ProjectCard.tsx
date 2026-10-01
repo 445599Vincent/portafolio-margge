@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ProjectCardData } from "@/lib/types";
-import { cn } from "@/lib/content";
+import { cn, isHidden } from "@/lib/content";
 import { Content } from "./ui/Content";
 import { MediaFrame } from "./ui/MediaFrame";
 import { ArrowUpRight } from "./ui/Icons";
@@ -13,6 +13,11 @@ type Props = {
 };
 
 export function ProjectCard({ project, large, className }: Props) {
+  // Marca y año provisionales no se muestran en producción (ni su separador)
+  const meta = [
+    { text: project.brandName, className: "font-medium text-ink" },
+    { text: project.year },
+  ].filter((m) => !isHidden(m.text));
   return (
     <article className={cn("group relative", className)}>
       <div className="overflow-hidden">
@@ -26,10 +31,17 @@ export function ProjectCard({ project, large, className }: Props) {
       </div>
 
       <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
-        <Content text={project.brandName} className="font-medium text-ink" />
-        <span aria-hidden>·</span>
-        <Content text={project.year} />
-        <span aria-hidden className="hidden sm:inline">·</span>
+        {meta.map((m, i) => (
+          <span key={i} className="contents">
+            {i > 0 && <span aria-hidden>·</span>}
+            <Content text={m.text} className={m.className} />
+          </span>
+        ))}
+        {meta.length > 0 && (
+          <span aria-hidden className="hidden sm:inline">
+            ·
+          </span>
+        )}
         <span className="w-full sm:w-auto">
           {project.categoryLabels.join(" / ")}
         </span>

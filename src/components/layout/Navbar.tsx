@@ -3,12 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { navigation, site } from "@/data/site";
+import { type navigation, site } from "@/data/site";
 import { cn } from "@/lib/content";
 import { Close, Menu } from "../ui/Icons";
 import { SocialLinks } from "../SocialLinks";
 
-export function Navbar() {
+type Props = {
+  /** Enlaces del menú, ya sin secciones ocultas (se calculan en el servidor). */
+  items: readonly (typeof navigation)[number][];
+};
+
+export function Navbar({ items }: Props) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
@@ -31,7 +36,7 @@ export function Navbar() {
   // Sección activa (scrollspy) en la home
   useEffect(() => {
     if (!isHome) return;
-    const sections = navigation
+    const sections = items
       .map((n) => document.getElementById(n.id))
       .filter((el): el is HTMLElement => el !== null);
     const io = new IntersectionObserver(
@@ -42,7 +47,7 @@ export function Navbar() {
     );
     sections.forEach((s) => io.observe(s));
     return () => io.disconnect();
-  }, [isHome]);
+  }, [isHome, items]);
 
   // Menú móvil: bloquear scroll, cerrar con Escape y gestionar el foco
   useEffect(() => {
@@ -84,7 +89,7 @@ export function Navbar() {
         </Link>
 
         <ul className="hidden items-center gap-1 lg:flex">
-          {navigation.map((item) =>
+          {items.map((item) =>
             item.id === "contacto" ? (
               <li key={item.id} className="ml-3">
                 <Link
@@ -143,7 +148,7 @@ export function Navbar() {
         )}
       >
         <ul className="space-y-1">
-          {navigation.map((item, i) => (
+          {items.map((item, i) => (
             <li
               key={item.id}
               className={cn("transition-[opacity,transform] duration-500", open ?"translate-y-0 opacity-100" : "translate-y-3 opacity-0")}

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { sectionIndex } from "@/data/sections";
 import { process } from "@/data/process";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 
@@ -7,7 +8,7 @@ export function Process() {
     <section id="metodologia" aria-labelledby="metodologia-title" className="bg-paper-2/60 py-24 sm:py-32 lg:py-40">
       <div className="container-site">
         <SectionTitle
-          index="05"
+          index={sectionIndex("metodologia")}
           eyebrow="Metodología"
           id="metodologia-title"
           title="Un proceso detrás de cada idea"

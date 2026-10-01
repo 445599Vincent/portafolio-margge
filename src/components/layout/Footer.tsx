@@ -1,7 +1,11 @@
 import Link from "next/link";
-import { navigation, site } from "@/data/site";
+import { site } from "@/data/site";
+import { visibleNavigation } from "@/data/sections";
+import { getContactChannels, type ContactChannel } from "@/lib/content";
 import { SocialLinks } from "../SocialLinks";
 import { CurrentYear } from "../ui/CurrentYear";
+
+const FOOTER_CHANNELS: ContactChannel["id"][] = ["email", "linkedin", "instagram"];
 
 export function Footer() {
   return (
@@ -16,7 +20,7 @@ export function Footer() {
           <nav aria-label="Pie de página">
             <h2 className="eyebrow text-paper/50">Navegación</h2>
             <ul className="mt-5 grid grid-cols-2 gap-x-6 md:grid-cols-1">
-              {navigation.map((item) => (
+              {visibleNavigation.map((item) => (
                 <li key={item.id}>
                   <Link
                     href={item.href}
@@ -29,10 +33,12 @@ export function Footer() {
             </ul>
           </nav>
 
-          <div>
-            <h2 className="eyebrow text-paper/50">Contacto</h2>
-            <SocialLinks className="mt-4 flex-col gap-y-0!" only={["email", "linkedin", "instagram"]} />
-          </div>
+          {getContactChannels().some((c) => FOOTER_CHANNELS.includes(c.id)) && (
+            <div>
+              <h2 className="eyebrow text-paper/50">Contacto</h2>
+              <SocialLinks className="mt-4 flex-col gap-y-0!" only={FOOTER_CHANNELS} />
+            </div>
+          )}
         </div>
 
         <div className="mt-16 flex flex-col gap-3 border-t border-paper/15 pt-8 text-xs text-paper/50 sm:flex-row sm:justify-between">

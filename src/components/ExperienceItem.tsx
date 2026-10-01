@@ -3,6 +3,7 @@ import type { ExperienceEntry } from "@/lib/types";
 import { getProject } from "@/data/projects";
 import { getBrand, brands } from "@/data/brands";
 import { Content } from "./ui/Content";
+import { visibleTexts } from "@/lib/content";
 import { ArrowUpRight } from "./ui/Icons";
 
 /** Resuelve un id de brands.ts a su nombre, o devuelve el texto tal cual. */
@@ -12,6 +13,8 @@ function accountName(value: string) {
 
 export function ExperienceItem({ entry }: { entry: ExperienceEntry }) {
   const projects = entry.highlightedProjects.map(getProject).filter((p) => p !== undefined);
+  const responsibilities = visibleTexts(entry.responsibilities);
+  const accounts = visibleTexts(entry.accounts.map(accountName));
 
   return (
     <li className="relative grid gap-6 border-t border-line py-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-12 lg:py-12" data-reveal>
@@ -26,25 +29,27 @@ export function ExperienceItem({ entry }: { entry: ExperienceEntry }) {
       </div>
 
       <div className="grid gap-8 sm:grid-cols-2">
-        <div className="sm:col-span-2">
-          <h4 className="eyebrow text-muted">Responsabilidades</h4>
-          <ul className="mt-4 space-y-2.5 text-[0.95rem] leading-relaxed">
-            {entry.responsibilities.map((r, i) => (
-              <li key={i} className="flex gap-3">
-                <span aria-hidden className="mt-[0.7em] h-px w-3 shrink-0 bg-accent" />
-                <Content text={r} />
-              </li>
-            ))}
-          </ul>
-        </div>
+        {responsibilities.length > 0 && (
+          <div className="sm:col-span-2">
+            <h4 className="eyebrow text-muted">Responsabilidades</h4>
+            <ul className="mt-4 space-y-2.5 text-[0.95rem] leading-relaxed">
+              {responsibilities.map((r, i) => (
+                <li key={i} className="flex gap-3">
+                  <span aria-hidden className="mt-[0.7em] h-px w-3 shrink-0 bg-accent" />
+                  <Content text={r} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
-        {entry.accounts.length > 0 && (
+        {accounts.length > 0 && (
           <div>
             <h4 className="eyebrow text-muted">Marcas / cuentas</h4>
             <ul className="mt-4 flex flex-wrap gap-2">
-              {entry.accounts.map((a, i) => (
+              {accounts.map((a, i) => (
                 <li key={i} className="rounded-full border border-line px-3 py-1 text-sm">
-                  <Content text={accountName(a)} />
+                  <Content text={a} />
                 </li>
               ))}
             </ul>

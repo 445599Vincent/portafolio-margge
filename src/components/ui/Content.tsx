@@ -1,4 +1,4 @@
-import { isPlaceholder } from "@/lib/content";
+import { isHidden, isPlaceholder } from "@/lib/content";
 
 type Props = {
   text: string;
@@ -10,10 +10,12 @@ type Props = {
 
 /**
  * Renderiza texto de contenido. Si es un placeholder ("[Agregar …]") se
- * resalta visualmente para que sea fácil de encontrar y reemplazar.
+ * resalta visualmente para que sea fácil de encontrar y reemplazar. En producción
+ * (sin SHOW_PLACEHOLDERS) no se renderiza nada, tampoco el contenedor (`as`).
  */
 export function Content({ text, as: Tag = "span", className, fallback = "[Pendiente]" }: Props) {
   const value = text?.trim() ? text : fallback;
+  if (isHidden(value)) return null;
   if (isPlaceholder(value)) {
     return (
       <Tag className={className} data-placeholder="">

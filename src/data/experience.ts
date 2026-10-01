@@ -1,4 +1,5 @@
 import type { ExperienceEntry } from "@/lib/types";
+import { isPlaceholder, showPlaceholders } from "@/lib/content";
 
 /**
  * Trayectoria profesional, de la más reciente a la más antigua.
@@ -41,3 +42,9 @@ export const experience: ExperienceEntry[] = [
     highlightedProjects: [],
   },
 ];
+
+/** Una entrada está lista cuando empresa y cargo ya no son provisionales. */
+const isEntryReady = (e: ExperienceEntry) => !isPlaceholder(e.company) && !isPlaceholder(e.role);
+
+/** Entradas que se muestran en este build (en producción, solo las listas). */
+export const visibleExperience = showPlaceholders ? experience : experience.filter(isEntryReady);

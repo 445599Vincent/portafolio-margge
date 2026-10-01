@@ -5,6 +5,7 @@ import { site } from "@/data/site";
 import { personJsonLd } from "@/lib/seo";
 import { validateContent } from "@/lib/validate-content";
 import { Navbar } from "@/components/layout/Navbar";
+import { visibleNavigation } from "@/data/sections";
 import { Footer } from "@/components/layout/Footer";
 import { RevealObserver } from "@/components/ui/RevealObserver";
 import { Analytics } from "@/components/analytics/Analytics";
@@ -87,7 +88,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           Saltar al contenido
         </a>
-        <Navbar />
+        <Navbar items={visibleNavigation} />
         <main id="contenido">{children}</main>
         <Footer />
         <RevealObserver />

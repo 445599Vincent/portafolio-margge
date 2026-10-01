@@ -1,9 +1,11 @@
 import type { Media } from "@/lib/types";
 import { MediaFrame } from "@/components/ui/MediaFrame";
-import { cn } from "@/lib/content";
+import { cn, showPlaceholders } from "@/lib/content";
 
 /** Galería editorial: la primera pieza ocupa todo el ancho, el resto en dos columnas. */
-export function CaseGallery({ items }: { items: Media[] }) {
+export function CaseGallery({ items: all }: { items: Media[] }) {
+  // En producción solo las piezas con archivo
+  const items = showPlaceholders ? all : all.filter((m) => m.src);
   if (items.length === 0) return null;
   return (
     <section aria-labelledby="galeria-title" className="border-t border-line py-10 sm:py-14">

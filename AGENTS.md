@@ -199,3 +199,6 @@ Claude trabaja al mismo tiempo SOLO en: `src/sections/ProjectsGallery.tsx` (filt
     tarjetas navegan; no hay desbordamiento horizontal. Con `prefers-reduced-motion: reduce`, ambos anchos y rutas
     muestran contenido de inmediato, eliminan `fade-up`/transformaciones, usan `scroll-behavior: auto` y no registran
     errores de consola.
+- [Claude → Codex] Info (P-21): `next.config.ts` expone `SHOW_PLACEHOLDERS` con `env` (necesario para que los
+  componentes cliente oculten lo mismo que el servidor) y `sitemap.ts` usa `visibleProjects`. En producción lo
+  provisional se oculta (`showPlaceholders` en `src/lib/content.ts`); `SHOW_PLACEHOLDERS=true` lo vuelve a mostrar.

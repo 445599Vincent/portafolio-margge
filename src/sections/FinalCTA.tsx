@@ -1,6 +1,7 @@
 import { contactContent } from "@/data/contact";
 import { CTA } from "@/components/CTA";
 import { SocialLinks } from "@/components/SocialLinks";
+import { getContactChannels } from "@/lib/content";
 
 export function FinalCTA() {
   return (
@@ -12,7 +13,7 @@ export function FinalCTA() {
         buttonLabel={contactContent.ctaButton}
         href="/#contacto"
       >
-        <SocialLinks />
+        {getContactChannels().length > 0 && <SocialLinks />}
       </CTA>
     </section>
   );

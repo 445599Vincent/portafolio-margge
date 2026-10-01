@@ -2,11 +2,13 @@ import type { Service } from "@/lib/types";
 import { Content } from "./ui/Content";
 import { Plus } from "./ui/Icons";
 import { ServiceCta } from "./ServiceCta";
+import { visibleTexts } from "@/lib/content";
 
 type Props = { service: Service; index: number };
 
 /** Servicio en formato de fila expandible: <details> nativo, accesible y funcional sin JavaScript. */
 export function ServiceCard({ service, index }: Props) {
+  const details = visibleTexts(service.details);
   return (
     <li className="border-t border-line last:border-b">
       <details className="service-details group/details">
@@ -38,14 +40,16 @@ export function ServiceCard({ service, index }: Props) {
         </summary>
 
         <div className="pb-8 pl-[3.25rem] pr-12 sm:pl-[4.5rem]">
-          <ul className="space-y-2 text-[0.95rem]">
-            {service.details.map((d, i) => (
-              <li key={i} className="flex gap-3">
-                <span aria-hidden className="mt-[0.6em] h-px w-3 shrink-0 bg-accent" />
-                <Content text={d} />
-              </li>
-            ))}
-          </ul>
+          {details.length > 0 && (
+            <ul className="mb-6 space-y-2 text-[0.95rem]">
+              {details.map((d, i) => (
+                <li key={i} className="flex gap-3">
+                  <span aria-hidden className="mt-[0.6em] h-px w-3 shrink-0 bg-accent" />
+                  <Content text={d} />
+                </li>
+              ))}
+            </ul>
+          )}
           <ServiceCta projectType={service.projectType} serviceName={service.name} />
         </div>
       </details>

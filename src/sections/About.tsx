@@ -1,10 +1,13 @@
 import type { CSSProperties } from "react";
+import { sectionIndex } from "@/data/sections";
 import { about } from "@/data/about";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { Content } from "@/components/ui/Content";
+import { isHidden } from "@/lib/content";
 
 export function About() {
+  const stats = about.stats.filter((s) => !isHidden(s.value));
   return (
     <section id="sobre-mi" aria-labelledby="sobre-mi-title" className="py-24 sm:py-32 lg:py-40">
       <div className="container-site">
@@ -23,7 +26,7 @@ export function About() {
           </div>
 
           <div className="order-1 lg:order-2">
-            <SectionTitle index="01" eyebrow="Sobre mí" title={about.heading} id="sobre-mi-title" />
+            <SectionTitle index={sectionIndex("sobre-mi")} eyebrow="Sobre mí" title={about.heading} id="sobre-mi-title" />
             <div className="mt-10 space-y-5 text-lg leading-relaxed text-ink/80" data-reveal>
               {about.paragraphs.map((p, i) => (
                 <Content key={i} text={p} as="p" />
@@ -38,8 +41,12 @@ export function About() {
               ))}
             </ul>
 
-            <dl className="mt-14 grid grid-cols-3 border-t border-line">
-              {about.stats.map((s, i) => (
+            {stats.length > 0 && (
+            <dl
+              className="mt-14 grid border-t border-line"
+              style={{ gridTemplateColumns: `repeat(${stats.length}, minmax(0, 1fr))` }}
+            >
+              {stats.map((s, i) => (
                 <div
                   key={s.label}
                   className="flex flex-col border-line pt-6 pr-3 [&:not(:first-child)]:border-l [&:not(:first-child)]:pl-4 sm:[&:not(:first-child)]:pl-6"
@@ -51,6 +58,7 @@ export function About() {
                 </div>
               ))}
             </dl>
+            )}
           </div>
         </div>
       </div>

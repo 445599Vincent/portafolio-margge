@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getAdjacentProjects, getProject, publishedProjects } from "@/data/projects";
+import { getAdjacentProjects, getProject, visibleProjects } from "@/data/projects";
 import { getBrand } from "@/data/brands";
 import { contactContent } from "@/data/contact";
-import { isPlaceholder } from "@/lib/content";
+import { isHidden, isPlaceholder, visibleTexts } from "@/lib/content";
 import { projectJsonLd } from "@/lib/seo";
 import { contactHrefForProject } from "@/lib/contact-prefill";
 import { Content } from "@/components/ui/Content";
@@ -20,7 +20,7 @@ type Props = { params: Promise<{ slug: string }> };
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return publishedProjects.map((p) => ({ slug: p.slug }));
+  return visibleProjects.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -76,11 +76,11 @@ export default async function ProjectPage({ params }: Props) {
           <CaseInvolvement project={project} />
 
           <CaseBlock id="ejecucion" label="Ejecución" text={project.execution}>
-            {project.deliverables.length > 0 && (
+            {visibleTexts(project.deliverables).length > 0 && (
               <div className="mt-10">
                 <h3 className="text-sm font-medium">Contenido y piezas desarrolladas</h3>
                 <ul className="mt-4 flex flex-wrap gap-2">
-                  {project.deliverables.map((d, i) => (
+                  {visibleTexts(project.deliverables).map((d, i) => (
                     <li key={i} className="rounded-full border border-line px-4 py-1.5 text-sm">
                       <Content text={d} />
                     </li>
@@ -90,9 +90,11 @@ export default async function ProjectPage({ params }: Props) {
             )}
           </CaseBlock>
 
-          <CaseBlock id="resultados" label="Resultados">
-            <CaseResults results={project.results} />
-          </CaseBlock>
+          {project.results.some((r) => !isHidden(r.value) && !isHidden(r.label)) && (
+            <CaseBlock id="resultados" label="Resultados">
+              <CaseResults results={project.results} />
+            </CaseBlock>
+          )}
 
           <CaseGallery items={project.gallery} />
 

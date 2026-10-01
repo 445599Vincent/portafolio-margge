@@ -4,6 +4,8 @@ import { heroPhoto, about } from "@/data/about";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { Content } from "@/components/ui/Content";
+import { sectionVisible } from "@/data/sections";
+import { isHidden } from "@/lib/content";
 
 const delay = (ms: number) => ({ animationDelay: `${ms}ms` }) as CSSProperties;
 
@@ -16,8 +18,12 @@ export function Hero() {
           <p className="eyebrow animate-fade-up flex flex-wrap items-center gap-3 text-muted" style={delay(0)}>
             <span className="inline-block size-1.5 rounded-full bg-accent" aria-hidden />
             {site.title}
-            <span aria-hidden className="h-px w-6 bg-current opacity-40" />
-            <Content text={site.contact.location} />
+            {!isHidden(site.contact.location) && (
+              <>
+                <span aria-hidden className="h-px w-6 bg-current opacity-40" />
+                <Content text={site.contact.location} />
+              </>
+            )}
           </p>
 
           <h1
@@ -40,10 +46,16 @@ export function Hero() {
           </p>
 
           <div className="animate-fade-up mt-10 flex flex-col gap-3 sm:flex-row" style={delay(320)}>
-            <ButtonLink href="/#proyectos">Ver proyectos</ButtonLink>
-            <ButtonLink href="/#contacto" variant="secondary" arrow={false}>
-              Trabajemos juntos
-            </ButtonLink>
+            {sectionVisible.proyectos ? (
+              <>
+                <ButtonLink href="/#proyectos">Ver proyectos</ButtonLink>
+                <ButtonLink href="/#contacto" variant="secondary" arrow={false}>
+                  Trabajemos juntos
+                </ButtonLink>
+              </>
+            ) : (
+              <ButtonLink href="/#contacto">Trabajemos juntos</ButtonLink>
+            )}
           </div>
         </div>
 

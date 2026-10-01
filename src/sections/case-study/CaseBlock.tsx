@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Content } from "@/components/ui/Content";
+import { isHidden } from "@/lib/content";
 
 type Props = {
   label: string;
@@ -11,6 +12,8 @@ type Props = {
 
 /** Fila editorial del caso de estudio: etiqueta a la izquierda, contenido a la derecha. */
 export function CaseBlock({ label, text, children, id }: Props) {
+  // Sin texto visible ni contenido adicional, el bloque no se muestra
+  if ((text === undefined || isHidden(text)) && !children) return null;
   return (
     <section
       aria-labelledby={id}

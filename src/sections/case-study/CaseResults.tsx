@@ -1,12 +1,13 @@
 import type { ProjectResult } from "@/lib/types";
 import { Content } from "@/components/ui/Content";
-import { cn } from "@/lib/content";
+import { cn, isHidden } from "@/lib/content";
 
 /**
  * Resultados del proyecto. Solo los marcados como `verified` se presentan como
  * confirmados; el resto se muestra explícitamente como pendiente de confirmar.
  */
-export function CaseResults({ results }: { results: ProjectResult[] }) {
+export function CaseResults({ results: all }: { results: ProjectResult[] }) {
+  const results = all.filter((r) => !isHidden(r.value) && !isHidden(r.label));
   if (results.length === 0) return null;
   return (
     <ul className="mt-2 grid gap-px overflow-hidden bg-line sm:grid-cols-2">

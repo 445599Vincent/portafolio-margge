@@ -7,6 +7,23 @@ export function isPlaceholder(text: string | undefined | null): boolean {
   return t.startsWith("[") && t.endsWith("]");
 }
 
+/**
+ * ¿Se muestran los textos provisionales? Siempre en desarrollo; en producción solo con
+ * SHOW_PLACEHOLDERS=true. En el sitio público lo provisional se oculta.
+ */
+export const showPlaceholders =
+  process.env.NODE_ENV !== "production" || process.env.SHOW_PLACEHOLDERS === "true";
+
+/** Texto provisional que no debe mostrarse en este build. */
+export function isHidden(text: string | undefined | null): boolean {
+  return !showPlaceholders && isPlaceholder(text);
+}
+
+/** Filtra los textos que no deben mostrarse en este build. */
+export function visibleTexts(list: string[]): string[] {
+  return list.filter((t) => !isHidden(t));
+}
+
 export function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
@@ -20,8 +37,15 @@ export type ContactChannel = {
   display: string;
 };
 
-/** Canales de contacto derivados de site.ts. Los no configurados quedan con href vacío. */
+/**
+ * Canales de contacto derivados de site.ts. Los no configurados quedan con href vacío
+ * (y en producción no se incluyen, salvo con SHOW_PLACEHOLDERS=true).
+ */
 export function getContactChannels(): ContactChannel[] {
+  return allContactChannels().filter((c) => showPlaceholders || c.href);
+}
+
+function allContactChannels(): ContactChannel[] {
   const { email, whatsapp } = site.contact;
   const { linkedin, instagram } = site.social;
   return [

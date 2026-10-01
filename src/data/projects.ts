@@ -1,4 +1,5 @@
 import type { Project, ProjectCardData } from "@/lib/types";
+import { isPlaceholder, showPlaceholders } from "@/lib/content";
 import { getBrand } from "./brands";
 import { getCategoryLabel } from "./categories";
 
@@ -172,9 +173,18 @@ export const projects: Project[] = [
 
 export const publishedProjects = projects.filter((p) => p.published);
 
-/** Proyectos publicados reducidos a los datos de su tarjeta (para la galería). */
+/** Un proyecto está listo para el sitio público cuando su título ya no es provisional. */
+export const isProjectReady = (p: Project) => !isPlaceholder(p.title);
+
+/**
+ * Proyectos que se muestran en este build: en producción solo los listos; con
+ * placeholders visibles (desarrollo o SHOW_PLACEHOLDERS=true), todos los publicados.
+ */
+export const visibleProjects = showPlaceholders ? publishedProjects : publishedProjects.filter(isProjectReady);
+
+/** Proyectos visibles reducidos a los datos de su tarjeta (para la galería). */
 export function getProjectCards(): ProjectCardData[] {
-  return publishedProjects.map((p) => ({
+  return visibleProjects.map((p) => ({
     slug: p.slug,
     featured: p.featured,
     title: p.title,
@@ -189,16 +199,16 @@ export function getProjectCards(): ProjectCardData[] {
 }
 
 export function getProject(slug: string) {
-  return publishedProjects.find((p) => p.slug === slug);
+  return visibleProjects.find((p) => p.slug === slug);
 }
 
 /** Proyecto anterior y siguiente (circular) para la navegación entre casos. */
 export function getAdjacentProjects(slug: string) {
-  const i = publishedProjects.findIndex((p) => p.slug === slug);
-  const n = publishedProjects.length;
+  const i = visibleProjects.findIndex((p) => p.slug === slug);
+  const n = visibleProjects.length;
   if (i === -1 || n < 2) return { prev: undefined, next: undefined };
   return {
-    prev: publishedProjects[(i - 1 + n) % n],
-    next: publishedProjects[(i + 1) % n],
+    prev: visibleProjects[(i - 1 + n) % n],
+    next: visibleProjects[(i + 1) % n],
   };
 }

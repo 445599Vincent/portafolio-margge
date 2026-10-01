@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { Media } from "@/lib/types";
-import { cn } from "@/lib/content";
+import { cn, showPlaceholders } from "@/lib/content";
 
 type Props = {
   media: Media;
@@ -56,10 +56,9 @@ export function MediaFrame({
       ) : (
         <div
           className="ph-frame absolute inset-0 flex items-center justify-center p-6 text-center"
-          role="img"
-          aria-label={media.alt || label}
+          {...(showPlaceholders ? { role: "img", "aria-label": media.alt || label } : { "aria-hidden": true })}
         >
-          <span className="eyebrow max-w-[20ch] leading-relaxed text-muted">{label}</span>
+          {showPlaceholders && <span className="eyebrow max-w-[20ch] leading-relaxed text-muted">{label}</span>}
         </div>
       )}
     </div>

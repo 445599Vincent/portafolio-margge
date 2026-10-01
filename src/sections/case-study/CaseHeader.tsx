@@ -3,6 +3,7 @@ import type { Project } from "@/lib/types";
 import { getBrand } from "@/data/brands";
 import { getCategoryLabel } from "@/data/categories";
 import { Content } from "@/components/ui/Content";
+import { isHidden } from "@/lib/content";
 import { MediaFrame } from "@/components/ui/MediaFrame";
 import { ArrowLeft } from "@/components/ui/Icons";
 
@@ -14,7 +15,7 @@ export function CaseHeader({ project }: { project: Project }) {
     { label: "Industria", value: project.industry },
     { label: "Rol de Margge", value: project.role },
     { label: "Tipo de proyecto", value: project.type },
-  ];
+  ].filter((m) => !isHidden(m.value));
 
   return (
     <header className="pt-28 sm:pt-36">
