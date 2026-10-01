@@ -16,12 +16,12 @@ export function Brands() {
           </p>
         </div>
         <ul
-          className="grid grid-cols-2 gap-px overflow-hidden bg-line sm:grid-cols-4"
+          className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 sm:gap-x-12"
           data-reveal
           style={{ "--reveal-delay": "100ms" } as CSSProperties}
         >
           {brands.map((brand) => (
-            <li key={brand.id} className="bg-paper">
+            <li key={brand.id} className="w-36 sm:w-44">
               <BrandLogo brand={brand} />
             </li>
           ))}

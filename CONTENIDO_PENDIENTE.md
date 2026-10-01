@@ -36,8 +36,8 @@ Checklist de la información real que falta para publicar el sitio. Todo lo que 
 
 ## 4. Marcas → `src/data/brands.ts` + `public/assets/brands/`
 
-Agregadas (trabajo directo, con logo): **Cava Alta**, **Cedaky Mall**. Quedan 6 espacios provisionales
-(se pueden eliminar de `brands.ts` si no hay más marcas).
+Agregadas (trabajo directo, con logo): **Cava Alta**, **Cedaky Mall**. Ya no hay espacios provisionales:
+la sección muestra solo marcas confirmadas (los proyectos de ejemplo mostrarán "[Agregar marca]").
 
 Por cada marca nueva:
 - [ ] Nombre exacto

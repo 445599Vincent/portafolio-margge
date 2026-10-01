@@ -90,7 +90,7 @@ Estados: `Pendiente` · `Bloqueado` (falta info del usuario o de Margge) · `En 
 
 | Id | Tarea | Agente · modelo · esfuerzo | Estado |
 |---|---|---|---|
-| P-20 | Marcas: mostrar solo las confirmadas (Cava Alta, Cedaky Mall) en una fila; quitar los 6 placeholders de `brands.ts` y adaptar `Brands.tsx` a pocas marcas | Ejecutor · Sonnet 5.5 · low | Pendiente (después de P-14) |
+| P-20 | Marcas: mostrar solo las confirmadas (Cava Alta, Cedaky Mall) en una fila; quitar los 6 placeholders de `brands.ts` y adaptar `Brands.tsx` a pocas marcas | Ejecutor · Sonnet 5.5 · low | Hecho — solo Cava Alta y Cedaky Mall; fila centrada que admite 3–6 marcas. |
 | P-21 | Ocultar lo incompleto en producción: en el build de producción los textos `[…]` no se muestran y las secciones 100% provisionales (proyectos, experiencia) se ocultan junto con su enlace del menú; en `npm run dev` todo sigue visible. Interruptor `SHOW_PLACEHOLDERS=true` para forzarlos | Ejecutor · Sonnet 5.5 · medium | Pendiente (después de P-20) |
 | P-22 | Botón flotante de WhatsApp (discreto, accesible, solo si `site.contact.whatsapp` tiene número) | Ejecutor · Sonnet 5.5 · low | Bloqueado (número de Margge, P-01) |
 | P-23 | Quitar insignia "Powered by Netlify": Project configuration → General → Powered by Netlify badge → Off | Usuario (en Netlify) | Pendiente |
