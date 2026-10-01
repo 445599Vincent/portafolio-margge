@@ -139,11 +139,14 @@ export function ContactForm({ projectTitles }: Props) {
     <form
       ref={formRef}
       name={FORM_NAME}
+      method="POST"
+      action="/__forms.html"
       noValidate
       onSubmit={onSubmit}
       className="grid gap-8 sm:grid-cols-2"
       aria-describedby="form-note"
     >
+      <input type="hidden" name="form-name" value={FORM_NAME} />
       <p className="hidden">
         <label>
           No llenar este campo: <input name="bot-field" tabIndex={-1} autoComplete="off" />
