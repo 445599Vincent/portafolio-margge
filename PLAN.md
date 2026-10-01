@@ -80,7 +80,7 @@ Estados: `Pendiente` · `Bloqueado` (falta info del usuario o de Margge) · `En 
 
 | Id | Tarea | Agente · modelo · esfuerzo | Estado |
 |---|---|---|---|
-| P-10 | Verificar formulario en Netlify: "Form detection" activo, envío de prueba recibido, notificación por email configurada | Usuario (en Netlify) | Pendiente |
+| P-10 | Verificar formulario en Netlify: "Form detection" activo, envío de prueba recibido, notificación por email configurada | Usuario (en Netlify) | Cancelado — se migra a Cloudflare + Formspree (ver P-30/31) |
 | P-11 | Pruebas de robustez: sitio sin JavaScript y con "movimiento reducido" | Codex · GPT-6-Sol · medium | Hecho — QA en vivo 375/1280: movimiento reducido OK y fallos sin JS documentados en AGENTS.md. |
 | P-12 | Medir rendimiento móvil en entorno calibrado (pagespeed.web.dev desde el navegador del usuario) | Usuario | Verificado — PSI móvil 99/100/100 (LCP 2.1 s, TBT 10 ms, CLS 0). Sin tareas de rendimiento. |
 | P-14 | Formulario sin JavaScript: `method="POST"` + `action="/__forms.html"` + `form-name` oculto (hoy envía por GET y deja datos personales en la URL) | Ejecutor · Sonnet 5.5 · low | Hecho — `ContactForm.tsx`: `method="POST"`, `action="/__forms.html"` y `form-name` oculto; HTML del build verificado. |
@@ -94,7 +94,20 @@ Estados: `Pendiente` · `Bloqueado` (falta info del usuario o de Margge) · `En 
 | P-20 | Marcas: mostrar solo las confirmadas (Cava Alta, Cedaky Mall) en una fila; quitar los 6 placeholders de `brands.ts` y adaptar `Brands.tsx` a pocas marcas | Ejecutor · Sonnet 5.5 · low | Hecho — solo Cava Alta y Cedaky Mall; fila centrada que admite 3–6 marcas. |
 | P-21 | Ocultar lo incompleto en producción: en el build de producción los textos `[…]` no se muestran y las secciones 100% provisionales (proyectos, experiencia) se ocultan junto con su enlace del menú; en `npm run dev` todo sigue visible. Interruptor `SHOW_PLACEHOLDERS=true` para forzarlos | Ejecutor · Opus 5.5 · high | Hecho — en producción hoy se ven: Inicio (solo "Trabajemos juntos"), Marcas, Sobre mí (1 cifra), Servicios ("Por confirmar", sin detalles), Metodología, CTA y Contacto (sin canales ni ubicación); Proyectos y Experiencia ocultas, casos dan 404. |
 | P-22 | Botón flotante de WhatsApp (discreto, accesible, solo si `site.contact.whatsapp` tiene número) | Ejecutor · Sonnet 5.5 · low | Bloqueado (número de Margge, P-01) |
-| P-23 | Quitar insignia "Powered by Netlify": Project configuration → General → Powered by Netlify badge → Off | Usuario (en Netlify) | Pendiente |
+| P-23 | Quitar insignia "Powered by Netlify": Project configuration → General → Powered by Netlify badge → Off | Usuario (en Netlify) | Cancelado — se deja Netlify |
+
+
+### D. Migración de hosting a Cloudflare Pages (decisión 2026-10-01)
+
+Motivo: Netlify gratis = 300 créditos/mes (15 por deploy de producción + 20 por GB de tráfico) y se pausó.
+Cloudflare Pages gratis: 500 builds/mes y tráfico estático ilimitado. Netlify sigue sirviendo la versión
+actual hasta el cambio definitivo.
+
+| Id | Tarea | Agente · modelo · esfuerzo | Estado |
+|---|---|---|---|
+| P-30 | Migración técnica en rama `migracion-cloudflare`: exportación estática, imágenes optimizadas en build, formulario a Formspree, `_headers`, docs | Codex · GPT-6-Sol · high | Pendiente |
+| P-31 | Crear cuenta Formspree (formulario "contacto") y cuenta Cloudflare; conectar el repo en Pages con la configuración que entregue el Planificador | Usuario | Pendiente |
+| P-32 | Cambio definitivo: merge a `main`, verificar sitio en `*.pages.dev`, envío de prueba del formulario, desconectar Netlify | Codex · GPT-6-Luna · low + Usuario | Bloqueado (P-30, P-31) |
 
 ---
 
@@ -103,6 +116,7 @@ Estados: `Pendiente` · `Bloqueado` (falta info del usuario o de Margge) · `En 
 - Sitio oculto de buscadores (`SITE_NOINDEX=true` en `netlify.toml`) hasta tener contenido real.
 - Nombre correcto: **Margge** Jiménez.
 - Marcas confirmadas: Cava Alta y Cedaky Mall (trabajo directo). Los proyectos de ejemplo no se asocian a marcas reales.
+- Hosting: se migra a Cloudflare Pages (gratis, uso comercial, tráfico ilimitado). Vercel Hobby descartado (prohíbe uso comercial).
 - P-21: servicios no confirmados se muestran con nombre + etiqueta "Por confirmar" (sin descripciones provisionales).
 - P-11: sin JS se aceptan como degradación el menú móvil (contenido y footer accesibles) y los filtros (tarjetas visibles).
 - Rendimiento cerrado (2026-09-30): PageSpeed móvil 99. Las cifras bajas previas eran por la CPU local.
