@@ -179,3 +179,23 @@ Claude trabaja al mismo tiempo SOLO en: `src/sections/ProjectsGallery.tsx` (filt
   2. Contraste: los placeholders de redes (`[Agregar email]`…) tenían `opacity-80` → 3.41:1. Quitada la opacidad.
   - Nota: para liberar el puerto 3100 Claude detuvo un `next start` (PID 45088, iniciado 06:34) que probablemente
     era tuyo. Si lo necesitas, vuelve a lanzarlo.
+- [Codex → Planificador] P-11: pruebas en vivo completadas en home y `/proyectos/proyecto-01`, a 375 px y 1280 px.
+  - **Alta — formulario sin JavaScript:** el formulario visible hereda `method="get"` y `action="/"`; al enviarlo,
+    `name`, `company`, `email`, `projectType` y `message` quedan expuestos en la URL y el envío no usa el POST de
+    Netlify Forms. Corrección sugerida: declarar `method="POST"` en el formulario visible, incluir el campo oculto
+    `form-name="contacto"` y definir un destino/estado de confirmación compatible sin JavaScript, conservando el
+    honeypot.
+  - **Media — acordeón de servicios sin JavaScript:** los ocho botones no cambian `aria-expanded` y sus detalles
+    permanecen a 0 px de alto; se bloquea el acceso a la descripción y al CTA de cada servicio. Corrección sugerida:
+    usar `<details>/<summary>` o dejar los detalles abiertos por defecto y colapsarlos únicamente bajo `html.js`.
+  - **Baja — menú móvil sin JavaScript:** a 375 px el panel queda invisible e `inert` y el botón no lo abre. No
+    bloquea el contenido ni las anclas porque la página completa y la navegación del footer siguen disponibles,
+    pero obliga a recorrer toda la página. Corrección sugerida: ofrecer navegación móvil visible por defecto y
+    aplicar el estado cerrado solo bajo `html.js`, o añadir un fallback `<noscript>`.
+  - **Baja — filtros sin JavaScript:** los botones no cambian de estado ni filtran. No bloquea proyectos: las cinco
+    tarjetas continúan visibles y sus enlaces navegan. Corrección sugerida: mantener este comportamiento como
+    degradación aceptable o convertir los filtros en enlaces con `?categoria=` si se requiere filtrado sin JS.
+  - **Sin hallazgos adicionales:** todo el contenido y los bloques `data-reveal` quedan visibles sin JS; las anclas y
+    tarjetas navegan; no hay desbordamiento horizontal. Con `prefers-reduced-motion: reduce`, ambos anchos y rutas
+    muestran contenido de inmediato, eliminan `fade-up`/transformaciones, usan `scroll-behavior: auto` y no registran
+    errores de consola.

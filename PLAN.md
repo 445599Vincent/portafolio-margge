@@ -81,7 +81,7 @@ Estados: `Pendiente` · `Bloqueado` (falta info del usuario o de Margge) · `En 
 | Id | Tarea | Agente · modelo · esfuerzo | Estado |
 |---|---|---|---|
 | P-10 | Verificar formulario en Netlify: "Form detection" activo, envío de prueba recibido, notificación por email configurada | Usuario (en Netlify) | Pendiente |
-| P-11 | Pruebas de robustez: sitio sin JavaScript y con "movimiento reducido" | Codex · GPT-6-Sol · medium | Hecho — QA 375/1280 documentado en AGENTS.md; formulario GET y fallbacks sin JS reportados. |
+| P-11 | Pruebas de robustez: sitio sin JavaScript y con "movimiento reducido" | Codex · GPT-6-Sol · medium | Hecho — QA en vivo 375/1280: movimiento reducido OK y fallos sin JS documentados en AGENTS.md. |
 | P-12 | Medir rendimiento móvil en entorno calibrado (pagespeed.web.dev desde el navegador del usuario) | Usuario | Verificado — PSI móvil 99/100/100 (LCP 2.1 s, TBT 10 ms, CLS 0). Sin tareas de rendimiento. |
 | P-14 | Formulario sin JavaScript: `method="POST"` + `action="/__forms.html"` + `form-name` oculto (hoy envía por GET y deja datos personales en la URL) | Ejecutor · Sonnet 5.5 · low | Pendiente |
 | P-13 | Lanzamiento: quitar `SITE_NOINDEX`, dominio propio, Search Console, GA4/Clarity | Codex · GPT-6-Sol · medium | Bloqueado (contenido) |
