@@ -59,6 +59,9 @@ Para ahorrar tokens:
 4. Marca la tarea como `Hecho` aquí con una nota de una línea.
 5. El Planificador revisa (diff + sitio en vivo) y la cierra o abre una corrección.
 
+Regla de carpeta compartida: Ejecutor y Codex usan la misma carpeta. **Solo un agente trabaja a la vez**
+cuando hay ramas en curso (cambiar de rama afecta a ambos). Antes de empezar: `git status` limpio y rama correcta.
+
 Estados: `Pendiente` · `Bloqueado` (falta info del usuario o de Margge) · `En curso` · `Hecho` · `Verificado`.
 
 ---
@@ -92,7 +95,7 @@ Estados: `Pendiente` · `Bloqueado` (falta info del usuario o de Margge) · `En 
 | Id | Tarea | Agente · modelo · esfuerzo | Estado |
 |---|---|---|---|
 | P-20 | Marcas: mostrar solo las confirmadas (Cava Alta, Cedaky Mall) en una fila; quitar los 6 placeholders de `brands.ts` y adaptar `Brands.tsx` a pocas marcas | Ejecutor · Sonnet 5.5 · low | Hecho — solo Cava Alta y Cedaky Mall; fila centrada que admite 3–6 marcas. |
-| P-21 | Ocultar lo incompleto en producción: en el build de producción los textos `[…]` no se muestran y las secciones 100% provisionales (proyectos, experiencia) se ocultan junto con su enlace del menú; en `npm run dev` todo sigue visible. Interruptor `SHOW_PLACEHOLDERS=true` para forzarlos | Ejecutor · Opus 5.5 · high | Hecho — en producción hoy se ven: Inicio (solo "Trabajemos juntos"), Marcas, Sobre mí (1 cifra), Servicios ("Por confirmar", sin detalles), Metodología, CTA y Contacto (sin canales ni ubicación); Proyectos y Experiencia ocultas, casos dan 404. |
+| P-21 | Ocultar lo incompleto en producción: en el build de producción los textos `[…]` no se muestran y las secciones 100% provisionales (proyectos, experiencia) se ocultan junto con su enlace del menú; en `npm run dev` todo sigue visible. Interruptor `SHOW_PLACEHOLDERS=true` para forzarlos | Ejecutor · Opus 5.5 · high | Hecho — en producción hoy se ven: Inicio (solo "Trabajemos juntos"), Marcas, Sobre mí (1 cifra), Servicios ("Por confirmar", sin detalles), Metodología, CTA y Contacto (sin canales ni ubicación); Proyectos y Experiencia ocultas, casos dan 404. Revisión de código OK (Planificador); verificación visual en P-32. |
 | P-22 | Botón flotante de WhatsApp (discreto, accesible, solo si `site.contact.whatsapp` tiene número) | Ejecutor · Sonnet 5.5 · low | Bloqueado (número de Margge, P-01) |
 | P-23 | Quitar insignia "Powered by Netlify": Project configuration → General → Powered by Netlify badge → Off | Usuario (en Netlify) | Cancelado — se deja Netlify |
 
