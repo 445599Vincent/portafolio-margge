@@ -172,3 +172,31 @@ html.js [data-reveal].is-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ——— Acordeón de servicios (<details> nativo; funciona sin JS) ——— */
+.service-summary {
+  list-style: none;
+}
+.service-summary::-webkit-details-marker {
+  display: none;
+}
+.service-summary::marker {
+  content: "";
+}
+
+/* Apertura animada solo donde hay soporte; si no, abre sin animación. */
+@supports (interpolate-size: allow-keywords) and selector(::details-content) {
+  .service-details {
+    interpolate-size: allow-keywords;
+  }
+  .service-details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 0.5s var(--ease-out-soft),
+      content-visibility 0.5s allow-discrete;
+  }
+  .service-details[open]::details-content {
+    block-size: auto;
+  }
+}
