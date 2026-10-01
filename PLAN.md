@@ -81,8 +81,8 @@ Estados: `Pendiente` · `Bloqueado` (falta info del usuario o de Margge) · `En 
 | Id | Tarea | Agente · modelo · esfuerzo | Estado |
 |---|---|---|---|
 | P-10 | Verificar formulario en Netlify: "Form detection" activo, envío de prueba recibido, notificación por email configurada | Usuario (en Netlify) | Pendiente |
-| P-11 | Pruebas de robustez: sitio sin JavaScript y con "movimiento reducido" | Codex · GPT-6-Sol · medium | Pendiente |
-| P-12 | Medir rendimiento móvil en entorno calibrado (pagespeed.web.dev desde el navegador del usuario) | Usuario | Pendiente |
+| P-11 | Pruebas de robustez: sitio sin JavaScript y con "movimiento reducido" | Codex · GPT-6-Sol · medium | Hecho — QA 375/1280 documentado en AGENTS.md; formulario GET y fallbacks sin JS reportados. |
+| P-12 | Medir rendimiento móvil en entorno calibrado (pagespeed.web.dev desde el navegador del usuario) | Usuario | Verificado — PSI móvil 99/100/100 (LCP 2.1 s, TBT 10 ms, CLS 0). Sin tareas de rendimiento. |
 | P-13 | Lanzamiento: quitar `SITE_NOINDEX`, dominio propio, Search Console, GA4/Clarity | Codex · GPT-6-Sol · medium | Bloqueado (contenido) |
 
 ### C. Mejoras de diseño (a definir con el usuario)
@@ -98,4 +98,5 @@ Estados: `Pendiente` · `Bloqueado` (falta info del usuario o de Margge) · `En 
 - Sitio oculto de buscadores (`SITE_NOINDEX=true` en `netlify.toml`) hasta tener contenido real.
 - Nombre correcto: **Margge** Jiménez.
 - Marcas confirmadas: Cava Alta y Cedaky Mall (trabajo directo). Los proyectos de ejemplo no se asocian a marcas reales.
+- Rendimiento cerrado (2026-09-30): PageSpeed móvil 99. Las cifras bajas previas eran por la CPU local.
 - Netlify inyecta un comentario en `<head>`; `layout.tsx` lo elimina antes de hidratar (no quitar ese script).
