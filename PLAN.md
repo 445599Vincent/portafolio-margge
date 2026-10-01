@@ -30,8 +30,21 @@ sin reintentos. Un reintento cuesta más que haber subido un nivel.
 | **Alto** | Varias capas a la vez, causa desconocida o riesgo de romper algo | Bug sin causa clara, rendimiento, integraciones (formulario, analítica, dominio), rediseño de una sección |
 | **Muy alto** | Solo si "Alto" ya falló o es arquitectura | Casi nunca en este proyecto |
 
-En Codex corresponde a `low / medium / high` (y `xhigh` para "Muy alto", si tu versión lo ofrece).
-En Claude, al selector de esfuerzo de la sesión del Ejecutor.
+### Modelo + esfuerzo por nivel
+
+| Nivel | Ejecutor (Claude Code) | Codex |
+|---|---|---|
+| **Bajo** | Claude **Sonnet 5.5** · esfuerzo `low` | **GPT-6-Luna** · `low` |
+| **Medio** | Claude **Sonnet 5.5** · esfuerzo `medium` | **GPT-6-Sol** · `medium` |
+| **Alto** | Claude **Opus 5.5** · esfuerzo `high` | **GPT-6-Sol** · `high` |
+| **Muy alto** | Claude **Opus 5.5** · `xhigh` → si falla, **Fable 5.1** · `high` | **GPT-6-Astra** · `high` |
+| _Planificador_ | Claude **Opus 5.5** · esfuerzo `medium` | — |
+
+Notas:
+- Claude Code arranca por defecto en esfuerzo `xhigh`: bájalo siempre según la tabla.
+- Fable 5.1 cuesta ~2.5× Opus 5.5; Opus 5.5 ~2× Sonnet 5.5. Haiku 4.5 no se usa: las tareas mecánicas van a Codex.
+- Codex: no usar la generación GPT-5.x (anterior). `service_tier = "priority"` consume más; dejarlo en el
+  estándar salvo urgencia. Los niveles `max`/`ultra` no se usan en este proyecto.
 
 Para ahorrar tokens:
 - Un encargo = una tarea con su id (`P-xx`). No mezclar tareas en un mismo mensaje.
@@ -54,29 +67,29 @@ Estados: `Pendiente` · `Bloqueado` (falta info del usuario o de Margge) · `En 
 
 ### A. Contenido real (depende de Margge — ver `CONTENIDO_PENDIENTE.md`)
 
-| Id | Tarea | Agente | Esfuerzo | Estado |
-|---|---|---|---|---|
-| P-01 | Datos de contacto y redes (email, WhatsApp, LinkedIn, Instagram, ciudad) en `src/data/site.ts` | Codex | Bajo | Bloqueado |
-| P-02 | Texto definitivo de "Sobre mí" + cifras reales (marcas, proyectos) en `src/data/about.ts` | Ejecutor | Bajo | Bloqueado |
-| P-03 | Trayectoria real (agencias, cargos, periodos, cuentas) en `src/data/experience.ts` | Codex | Bajo | Bloqueado |
-| P-04 | Servicios confirmados (quitar los que no ofrece, descripciones, `draft:false`) en `src/data/services.ts` | Ejecutor | Bajo | Bloqueado |
-| P-05 | Proyectos reales: 4–6 casos con imágenes, participación y resultados verificados | Ejecutor | Medio (por proyecto) | Bloqueado |
-| P-06 | Marcas restantes con logo (o eliminar los 6 espacios provisionales) | Codex | Bajo | Bloqueado |
+| Id | Tarea | Agente · modelo · esfuerzo | Estado |
+|---|---|---|---|
+| P-01 | Datos de contacto y redes (email, WhatsApp, LinkedIn, Instagram, ciudad) en `src/data/site.ts` | Codex · GPT-6-Luna · low | Bloqueado |
+| P-02 | Texto definitivo de "Sobre mí" + cifras reales (marcas, proyectos) en `src/data/about.ts` | Ejecutor · Sonnet 5.5 · low | Bloqueado |
+| P-03 | Trayectoria real (agencias, cargos, periodos, cuentas) en `src/data/experience.ts` | Codex · GPT-6-Luna · low | Bloqueado |
+| P-04 | Servicios confirmados (quitar los que no ofrece, descripciones, `draft:false`) en `src/data/services.ts` | Ejecutor · Sonnet 5.5 · low | Bloqueado |
+| P-05 | Proyectos reales: 4–6 casos con imágenes, participación y resultados verificados (un encargo por proyecto) | Ejecutor · Sonnet 5.5 · medium | Bloqueado |
+| P-06 | Marcas restantes con logo PNG transparente (o eliminar los 6 espacios provisionales) | Codex · GPT-6-Sol · medium | Bloqueado |
 
 ### B. Funcionamiento y publicación
 
-| Id | Tarea | Agente | Esfuerzo | Estado |
-|---|---|---|---|---|
-| P-10 | Verificar formulario en Netlify: "Form detection" activo, envío de prueba recibido, notificación por email configurada | Usuario + Codex | Bajo | Pendiente |
-| P-11 | Pruebas de robustez: sitio sin JavaScript y con "movimiento reducido" | Codex | Medio | Pendiente |
-| P-12 | Medir rendimiento móvil en entorno calibrado (pagespeed.web.dev desde el navegador del usuario) | Usuario | — | Pendiente |
-| P-13 | Lanzamiento: quitar `SITE_NOINDEX`, dominio propio, Search Console, GA4/Clarity | Codex | Medio | Bloqueado (contenido) |
+| Id | Tarea | Agente · modelo · esfuerzo | Estado |
+|---|---|---|---|
+| P-10 | Verificar formulario en Netlify: "Form detection" activo, envío de prueba recibido, notificación por email configurada | Usuario (en Netlify) | Pendiente |
+| P-11 | Pruebas de robustez: sitio sin JavaScript y con "movimiento reducido" | Codex · GPT-6-Sol · medium | Pendiente |
+| P-12 | Medir rendimiento móvil en entorno calibrado (pagespeed.web.dev desde el navegador del usuario) | Usuario | Pendiente |
+| P-13 | Lanzamiento: quitar `SITE_NOINDEX`, dominio propio, Search Console, GA4/Clarity | Codex · GPT-6-Sol · medium | Bloqueado (contenido) |
 
 ### C. Mejoras de diseño (a definir con el usuario)
 
-| Id | Tarea | Agente | Esfuerzo | Estado |
-|---|---|---|---|---|
-| P-20 | _(por definir en la próxima conversación de planificación)_ | — | — | — |
+| Id | Tarea | Agente · modelo · esfuerzo | Estado |
+|---|---|---|---|
+| P-20 | _(por definir en la próxima conversación de planificación)_ | — | — |
 
 ---
 
