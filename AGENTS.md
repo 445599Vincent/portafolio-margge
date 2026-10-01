@@ -3,6 +3,14 @@
 Portafolio de **Margge Jiménez**, consultora de marketing digital.
 Stack: Next.js 16 (App Router) · React 19 · TypeScript 5.9 · Tailwind CSS v4. Sin dependencias extra salvo acuerdo.
 
+## Flujo actual (desde 2026-09-30)
+
+- Hay tres roles: **Planificador** (sesión de Claude que define y prioriza), **Ejecutor** (sesión de Claude para
+  diseño/UI/contenido) y **Codex** (ingeniería, integraciones, QA). Ver roles y backlog en **`PLAN.md`**.
+- Solo se trabaja en tareas con id `P-xx` de `PLAN.md`. Al terminar: `npm run check`, commit `P-xx: …`, push a `main`
+  (push = deploy en Netlify) y marcar la tarea como `Hecho` en `PLAN.md` con una nota corta.
+- No agregar tareas ni cambiar prioridades: proponerlas al Planificador vía "Solicitudes" al final de este archivo.
+
 ## Reglas de contenido (obligatorias para ambos agentes)
 
 - **NO inventar** marcas, resultados, métricas, testimonios, clientes, fechas, cargos ni proyectos.
